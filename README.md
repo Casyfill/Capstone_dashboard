@@ -1,7 +1,7 @@
 # Capstone dashboard
 CUSP Capstone dashboard
 
-[gh-pages online version](http://casyfill.github.io/Capstone_dashboard/)
+[gh-pages online version](gh_memo.md)
 
 Repository will conclude:
 - Flask server settings
