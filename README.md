@@ -4,7 +4,6 @@ CUSP Capstone dashboard
 ![current state](pImages/1.png)
 *current state screenshot*
 
-[gh-pages online version](gh_memo.md)
 [Live version (mirroring this repository)](https://github.com/Casyfill/Capstone_dashboard)
 Repository will conclude:
 - Flask server settings
