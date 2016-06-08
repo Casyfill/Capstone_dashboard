@@ -1,11 +1,10 @@
 # Development log, extended
 
-
-## Zipcode map
-[data source](https://data.cityofnewyork.us/Business/Zip-Code-Boundaries/i8iw-xf4u)
+## Precincts map
+[precinct boundaries source](http://www1.nyc.gov/site/planning/data-maps/open-data/districts-download-metadata.page)
 
 #### Install topojson:
 sudo npm install -g topojson
 
 #### Shapefile to topojson:
-topojson -o datum/zips.topojson -s -- data/ZIP_CODE_040114/ZIP_CODE_040114.shp
+topojson -o assets/datum/precincts.topojson -- rawData/precincts.geojson

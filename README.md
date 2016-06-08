@@ -1,6 +1,9 @@
 # Capstone dashboard
 CUSP Capstone dashboard
 
+![current state](pimages/1.png)
+*current state screenshot*
+
 [gh-pages online version](gh_memo.md)
 
 Repository will conclude:

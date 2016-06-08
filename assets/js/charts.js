@@ -3,24 +3,24 @@ console.log('Charts fired')
 console.log('v proj2.13')
 
 d3_queue.queue()
-  .defer(d3.json, "assets/datum/zips.json")
+  .defer(d3.json, "assets/datum/precincts.json")
   .await(makeGraphs);
 
 // add network
-function makeGraphs(error, zips) {
+function makeGraphs(error, precincts) {
   console.log('makeGraphs fired')
-  makeMap(error, zips);
+  makeMap(error, precincts);
   // add other charts etc.
 };
 
-function makeMap(error, zips) {
+function makeMap(error, precincts) {
   console.log('makeMap fired')
-  // var zips = zips;
+  // var precincts = precincts;
 
   var mapWidth = 700;
   var mapHeight = 708;
 
-  zipsFeatures = topojson.feature(zips, zips.objects.zips).features;
+  precinctsFeatures = topojson.feature(precincts, precincts.objects.precincts).features;
 
 
   var projection = d3.geo.mercator()
@@ -39,7 +39,7 @@ function makeMap(error, zips) {
   mapSvg
     .attr("id", "map")
     .selectAll(".zip")
-    .data(topojson.feature(zips, zips.objects.zips).features)
+    .data(topojson.feature(precincts, precincts.objects.precincts).features)
     .enter().append("path")
     .attr("class", "zip")
     .attr("id", function(d) {
