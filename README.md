@@ -4,7 +4,7 @@ CUSP Capstone dashboard
 ![current state](pImages/1.png)
 *current state screenshot*
 
-[Live version (mirroring this repository)](casyfill.github.io/Capstone_dashboard/)
+[Live version (mirroring this repository)](https://casyfill.github.io/Capstone_dashboard/)
 
 Repository will conclude:
 - Flask server settings
