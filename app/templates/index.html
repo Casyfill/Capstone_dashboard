@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Capstone project dashboard</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/styles/lib/bootstrap/dist/css/bootstrap.min.css')}}" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/styles/css/keen-dashboards.css')}}" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/styles/css/charts.css')}}" />
+</head>
+
+<body class="application">
+
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <a class="navbar-brand" href="./">Capstone project dashboard</a>
+      </div>
+
+
+      <div class="navbgitar">
+        <ul class="nav navbar-nav navbar-left">
+          <li><a href="http://cusp.nyu.edu/">Home</a></li>
+          <li><a href="http://cusp.nyu.edu/people/">Team</a></li>
+          <li><a href="">Source</a></li>
+          <li><a href="http://cusp.nyu.edu/people/">Community</a></li>
+          <li><a href="http://cusp.nyu.edu/people/">Technical Support</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+
+<!-- LEFT COLUMN -->
+      <div class="col-sm-6">
+        <div class="chart-wrapper">
+          <div class="chart-title">
+            Data range and vis mode
+          </div>
+          <div class="chart-stage">
+<!--            <img data-src="holder.js/100%x150/white">-->
+              {% for crime in crimes %}
+              <div><p>crime ID:{{ crime.ID }} Mode of Entry: {{ crime.Mode_Entry }}</p></div>
+              {% endfor %}
+          </div>
+          <div class="chart-notes">
+            This is a sample text region to describe this chart.
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <div class="chart-title">
+            Detailed data
+          </div>
+          <div class="chart-stage">
+            <img data-src="holder.js/100%x415/white">
+          </div>
+          <div class="chart-notes">
+            Notes go down here
+          </div>
+        </div>
+      </div>
+
+<!-- RIGHT COLUMN -->
+      <div class="col-sm-6">
+        <div class="chart-wrapper">
+
+          <div class="chart-stage" id="mapBlock">
+            <!-- <img data-src="holder.js/100%x713/white"> -->
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <hr>
+
+    <p class="small text-muted">Dashbord template built with &#9829; by <a href="https://keen.io">Keen IO</a></p>
+
+  </div>
+
+ <script type="text/javascript" src="{{ '../static/styles/lib/jquery/dist/jquery.min.js'}}"></script>
+  <script type="text/javascript" src="{{' ../static/styles/lib/bootstrap/dist/js/bootstrap.min.js' }}"></script>
+
+  <script type="text/javascript" src="{{ '../static/styles/lib/holderjs/holder.js' }}"></script>
+  <script>
+    Holder.add_theme("white", {
+      background: "#fff",
+      foreground: "#a7a7a7",
+      size: 10
+    });
+  </script>
+
+  <script type="text/javascript" src="{{ '../static/styles/lib/keen-js/dist/keen.min.js' }}"></script>
+  <script type="text/javascript" src="{{ '../static/styles/js/meta.js' }}"></script>
+  <script type="text/javascript" src="{{ '../static/styles/lib/d3/d3.min.js' }}"></script>
+  <script src="http://d3js.org/topojson.v1.min.js"></script>
+
+  <script src="https://d3js.org/d3-queue.v2.min.js"></script>
+  <script>
+    // var queue = d3_queue.queue();
+  </script>
+  <script type="text/javascript" src="{{ '../static/styles/js/charts.js' }}"></script>
+
+
+</body>
+
+</html>
