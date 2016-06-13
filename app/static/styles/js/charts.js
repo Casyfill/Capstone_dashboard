@@ -47,8 +47,4 @@ function makeMap(error, precincts) {
     })
     .attr("d", path)
 
-
-
-
-
 }

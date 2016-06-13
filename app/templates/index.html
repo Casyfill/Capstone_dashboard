@@ -29,6 +29,7 @@
         <ul class="nav navbar-nav navbar-left">
           <li><a href="http://cusp.nyu.edu/">Home</a></li>
           <li><a href="http://cusp.nyu.edu/people/">Team</a></li>
+          <li><a href="add_record">Records</a></li>
           <li><a href="">Source</a></li>
           <li><a href="http://cusp.nyu.edu/people/">Community</a></li>
           <li><a href="http://cusp.nyu.edu/people/">Technical Support</a></li>
@@ -48,10 +49,23 @@
             Data range and vis mode
           </div>
           <div class="chart-stage">
-<!--            <img data-src="holder.js/100%x150/white">-->
-              {% for crime in crimes %}
-              <div><p>crime ID:{{ crime.ID }} Mode of Entry: {{ crime.Mode_Entry }}</p></div>
-              {% endfor %}
+<!--            <img data-src="holder.js/100%x150/white">-->              
+              <table>
+                  <thead>
+                      <th>Crime ID</th>
+                      <th>Mode of Entry</th>
+                  </thead>
+                  
+                  <tbody>
+                    {% for crime in crimes %}
+                      <tr>
+                        <td>{{ crime.crimeId }}</td>
+                        <td>{{ crime.modeOfEntry }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+              </table>
+              
           </div>
           <div class="chart-notes">
             This is a sample text region to describe this chart.
@@ -60,6 +74,7 @@
         <div class="chart-wrapper">
           <div class="chart-title">
             Detailed data
+
           </div>
           <div class="chart-stage">
             <img data-src="holder.js/100%x415/white">

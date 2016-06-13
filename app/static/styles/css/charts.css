@@ -132,5 +132,15 @@ text {
 
 #DistrictLegend {
   fill: #4ec677;
+}
 
+/*SZ edit table style*/
+table, th, td {
+  border: none;
+  border-bottom: 1px solid #C8C8C8;
+  border-collapse: collapse;
+  text-align:left;
+  padding: 10px;
+  margin-bottom: 40px;
+  font-size: 0.9em;
 }
