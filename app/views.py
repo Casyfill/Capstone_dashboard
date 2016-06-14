@@ -29,7 +29,6 @@ def submitRecord():
             flash('Duplicated CrimeID!')
     elif form.crimeId.data=='' or form.modeOfEntry.data=='':
         flash('Incomplete record entries!')
-        console('Incomplete record entries!')
     return render_template('add_record.html', 
                            title='Add Record',
                            form=form,
