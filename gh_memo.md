@@ -8,3 +8,4 @@ Add the following 2 lines to the [remote "origin"] section of .git/config:
 push = +refs/heads/master:refs/heads/gh-pages
 push = +refs/heads/master:refs/heads/master
 ```
+editing....
