@@ -4,8 +4,8 @@ import sqlalchemy
 
 # this class used to initialize table datatypes,
 # which has been done in folder raw_data_processing/to_database.py
-class Test(db.Model):
-    __tablename__ = 'test'
+# class Test(db.Model):
+#     __tablename__ = 'test'
 
     # id = db.Column(db.Integer, primary_key=True)
     # result_all = db.Column(JSON)
@@ -24,5 +24,5 @@ class Test(db.Model):
     #     self.result_all = result_all
     #     self.result_no_stop_words = result_no_stop_words
 
-    def __repr__(self):
-        return '<EVENT_ID {}>'.format(self.EVENT_ID)
+    # def __repr__(self):
+    #     return '<EVENT_ID {}>'.format(self.EVENT_ID)
