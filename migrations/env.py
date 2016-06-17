@@ -3,8 +3,6 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
 import logging
-import sqlalchemy
-
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -67,16 +65,9 @@ def run_migrations_online():
                 directives[:] = []
                 logger.info('No changes in schema detected.')
 
-    # engine = engine_from_config(config.get_section(config.config_ini_section),
-    #                             prefix='sqlalchemy.',
-    #                             poolclass=pool.NullPool)
-    
-    
-    # SZ editing the file
-    username='ubuntu'
-    password= 123
-    dbase='myevents'
-    engine = sqlalchemy.create_engine('postgresql://{0}:{1}@localhost:5432/{2}'.format(username, password, dbase))
+    engine = engine_from_config(config.get_section(config.config_ini_section),
+                                prefix='sqlalchemy.',
+                                poolclass=pool.NullPool)
 
     connection = engine.connect()
     context.configure(connection=connection,
