@@ -2,55 +2,61 @@
 WTF_CSRF_ENABLED = True
 
 # this is only needed when CSRF is enabled, and is used to create a cryptographic token that is used to validate a form. When you write your own apps make sure to set the secret key to something that is difficult to guess.
-# SECRET_KEY = 'you-will-never-guess'
+SECRET_KEY = 'you-will-never-guess'
+
+# previously hardcoded records
+#CRIME_RECORDS = [
+#        {
+#            'crimeId':'12',
+#            'modeOfEntry': 'Front Door'
+#        },
+#        {
+#            'crimeId':'43',
+#            'modeOfEntry': 'Side Window'
+#        },
+#        {
+#            'crimeId':'78',
+#            'modeOfEntry': 'Back Door'
+#        },
+#        {
+#            'crimeId':'54',
+#            'modeOfEntry': 'Front Door'
+#        }
+#    ]
 
 
-CRIME_RECORDS = [
-        {
-            'crimeId':'12',
-            'modeOfEntry': 'Front Door'
-        },
-        {
-            'crimeId':'43',
-            'modeOfEntry': 'Side Window'
-        },
-        {
-            'crimeId':'78',
-            'modeOfEntry': 'Back Door'
-        },
-        {
-            'crimeId':'54',
-            'modeOfEntry': 'Front Door'
-        }
-    ]
-    
-    
-    
-# setting up database
-# import os
-# basedir = os.path.abspath(os.path.dirname(__file__))
-
-# class Config(object):
-#     DEBUG = False
-#     TESTING = False
-#     CSRF_ENABLED = True
-#     SECRET_KEY = 'this-really-needs-to-be-changed'
-#     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+import psycopg2
+import psycopg2.extras
+import sys
+import pprint
+import pandas as pd
 
 
-# class ProductionConfig(Config):
-#     DEBUG = False
+conn_str = "host='localhost' dbname='myevent' user='zsy' password='123'"
+print "Connecting to database-> %s" % (conn_str)
+
+# get a connection
+conn = psycopg2.connect(conn_str)
+
+# conn.cursor will return a cursor object, you can use this query to perform queries
+# note that in this example we pass a cursor_factory argument that will
+# dictionary cursor so COLUMNS will be returned as a dictionary so we
+# can access columns by their name instead of index.
+cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+cursor.execute('SELECT * FROM test')
+EVENT_RECORDS = cursor.fetchall()
+COLNAME = [desc[0] for desc in cursor.description]
+#print [crime[i]['datetime_from'] for i in range(len(crime))]
 
 
-# class StagingConfig(Config):
-#     DEVELOPMENT = True
-#     DEBUG = True
 
 
-# class DevelopmentConfig(Config):
-#     DEVELOPMENT = True
-#     DEBUG = True
 
 
-# class TestingConfig(Config):
-#     TESTING = True
+
+
+
+
+
+

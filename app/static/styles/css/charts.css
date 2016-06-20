@@ -135,12 +135,16 @@ text {
 }
 
 /*SZ edit table style*/
-table, th, td {
+table, th, td, tr, tbody, thead {
   border: none;
   border-bottom: 1px solid #C8C8C8;
   border-collapse: collapse;
   text-align:left;
   padding: 10px;
   margin-bottom: 40px;
+  height: auto;
+  width: 100%;
   font-size: 0.9em;
 }
+
+

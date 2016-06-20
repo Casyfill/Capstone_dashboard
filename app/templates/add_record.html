@@ -29,7 +29,7 @@
         <ul class="nav navbar-nav navbar-left">
           <li><a href="http://cusp.nyu.edu/">Home</a></li>
           <li><a href="http://cusp.nyu.edu/people/">Team</a></li>
-          <li><a href="add_record">Records</a></li>
+          <li><a href="search_record">Records</a></li>
           <li><a href="">Source</a></li>
           <li><a href="http://cusp.nyu.edu/people/">Community</a></li>
           <li><a href="http://cusp.nyu.edu/people/">Technical Support</a></li>
@@ -57,10 +57,10 @@
                   </thead>
                   
                   <tbody>
-                    {% for crime in crime_records %}
+                    {% for event in events %}
                       <tr>
-                        <td>{{ crime.crimeId }}</td>
-                        <td>{{ crime.modeOfEntry }}</td>
+                        <td>{{ event.crimeId }}</td>
+                        <td>{{ event.modeOfEntry }}</td>
                       </tr>
                     {% endfor %}
                   </tbody>
@@ -86,7 +86,7 @@
                   <form action="" method="post" name="submitRecord">
                       {{ form.hidden_tag() }}
                       <p>
-                      Enter Crime ID:<br>
+                      Enter Event ID:<br>
                       {{ form.crimeId(size=40) }}<br>
                       </p>
                       <p> 

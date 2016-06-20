@@ -28,13 +28,14 @@ if __name__ == '__main__':
               'LOC_X': sqlalchemy.types.NUMERIC,
               'LOC_Y': sqlalchemy.types.NUMERIC,
               'PR_CODE':sqlalchemy.types.NUMERIC,
-              'BLD_TYPE':sqlalchemy.types.String
+              'BLD_TYPE':sqlalchemy.types.String,
+              'RELAVENCE':sqlalchemy.types.NUMERIC
               }
         
     process_data(sys.argv[1], 
-                 username='ubuntu', 
+                 username='zsy', 
                  password= 123,
-                 dbase='myevents',
+                 dbase='myevent',
                  tablename='test',
                  dtDict=dtDict)
 
