@@ -33,9 +33,9 @@ if __name__ == '__main__':
               }
         
     process_data(sys.argv[1], 
-                 username='zsy', 
+                 username='ubuntu', 
                  password= 123,
-                 dbase='myevent',
+                 dbase='myevents',
                  tablename='test',
                  dtDict=dtDict)
 
