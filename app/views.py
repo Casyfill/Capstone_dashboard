@@ -41,15 +41,18 @@ def searchRecord():
             cursor.execute('SELECT * FROM test WHERE relavence=%s'% form.event_id.data)
             events_updated = cursor.fetchall()
             colnames = [desc[0] for desc in cursor.description]
+            
+            if len(events_updated)==0:
+                flash('No relavent events!')
 
         elif request.form['button']=="Info":
             cursor.execute('SELECT * FROM test WHERE event_id=%s'%form.event_id.data)
             events_updated = cursor.fetchall()
             colnames = [desc[0] for desc in cursor.description]
-        else:
-            flash('Wrong button!')
-            return redirect('../search_record')
-
+            
+            if len(events_updated)==0:
+                flash('Empty result!')
+                
     return render_template('search_record.html',
                            title='Records',
                            form=form,
