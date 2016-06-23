@@ -1,15 +1,25 @@
+import psycopg2
+import psycopg2.extras
+import sys
+import pprint
+import pandas as pd
 from flask import render_template, flash, redirect, request
 from app import app
-from .forms import Add_Records_Form, Search_Records_Form
+from .forms import Search_Records_Form
 
 @app.route('/')
 @app.route('/index')
 
-def index():   
+def index():  
+#    COLNAME, EVENT_RECORDS = connect_db('SELECT * FROM test')
+    cursor = connect_db('SELECT * FROM test')
+    EVENT_RECORDS = cursor.fetchall()
+    COLNAME = [desc[0] for desc in cursor.description]
+    
     return render_template('index.html',
                            title='Home',
-                           events=app.config['EVENT_RECORDS'],
-                           colnames=app.config['COLNAME']
+                           events=EVENT_RECORDS,
+                           colnames=COLNAME
                            )
 
 
@@ -20,22 +30,28 @@ def searchRecord():
     error = None
     
     # retrieve data records from database
-    colnames=app.config['COLNAME']
-    events=app.config['EVENT_RECORDS']
+#    colnames=COLNAME
+#    events=EVENT_RECORDS
+#    colnames, events = connect_db('SELECT * FROM test')
+    cursor = connect_db('SELECT * FROM test')
+    events = cursor.fetchall()
+    colnames = [desc[0] for desc in cursor.description]
     
     # for views html
     events_updated = []
     seed = []
     
+    # check if the request method is POST (where form helps retrieve info from backend)
     if request.method.upper()=='POST':
+        # select one of the two functions to react on (based on which button you click)
         if request.form['button']=="Search":
             print "yes"
             for i in range(len(events)):
-                if form.event_id.data in str(events[i]['relavence']):
+                if form.event_id.data == str(events[i]['relavence']):
                     events_updated.append(events[i])
         elif request.form['button']=="Info":
             for i in range(len(events)):
-                if form.event_id.data in str(events[i]['event_id']):
+                if form.event_id.data == str(events[i]['event_id']):
                     events_updated.append(events[i])
         else:
             flash('Wrong button!')
@@ -49,26 +65,24 @@ def searchRecord():
                            )
 
 
-@app.route('/add_record', methods=['GET', 'POST'])
-def submitRecord():
-    form = Add_Records_Form()
-    error = None
+def connect_db(query):
+    # define connection
+    conn_str = "host='localhost' dbname='myevent' user='zsy' password='123'"
+    print "Connecting to database-> %s" % (conn_str)
+
+    # get a connection
+    conn = psycopg2.connect(conn_str)
+
+    # conn.cursor will return a cursor object, you can use this query to perform queries
+    # note that in this example we pass a cursor_factory argument that will
+    # dictionary cursor so COLUMNS will be returned as a dictionary so we
+    # can access columns by their name instead of index.
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+#    cursor.execute('SELECT * FROM test')
+    cursor.execute(query)
+#    EVENT_RECORDS = cursor.fetchall()
+#    results = cursor.fetchall()
+#    colname = [desc[0] for desc in cursor.description]
     
-    if form.validate_on_submit():
-        flag = 0
-        for c in app.config['EVENT_RECORDS']:
-            if c['crimeId']==form.crimeId.data:
-                flag = 1
-                print flag
-        if flag == 0:
-            app.config['EVENT_RECORDS'].append({'crimeId': form.crimeId.data, 'modeOfEntry': form.modeOfEntry.data})
-            return redirect('../add_record')
-        else:
-            flash('Duplicated EventID!')
-    elif form.crimeId.data=='' or form.modeOfEntry.data=='':
-        flash('Incomplete record entries!')
-    return render_template('add_record.html', 
-                           title='Add Record',
-                           form=form,
-                           events=app.config['EVENT_RECORDS']
-                          )
+    return cursor

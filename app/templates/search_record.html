@@ -56,9 +56,6 @@
                     <input id="info_button" name="button" type="submit" value="Info">
                 </form>
             {% endblock%}
-            
-              
-              
                {% with messages = get_flashed_messages() %}
                   {% if messages %}
                     {% for message in messages %}
@@ -67,20 +64,23 @@
                   {% endif %}
                 {% endwith %}
           </div>
-          <div class="chart-stage" style="overflow-x:scroll; overflow-y:hidden; height:280px">
-<!--            <img data-src="holder.js/100%x150/white">-->              
+          <div class="chart-stage" style="overflow:scroll; height:280px">
               <table class="table">
 
                   <thead class="thead">
                       {% for coln in colnames %}
+                      {% if "loc" not in coln %}
                       <th>{{ coln.upper() }}</th>
+                      {% endif %}
                       {% endfor %}
                   </thead>
                   <tbody class="tbody">
                       {% for event in events %}
                       <tr class="tr">
                           {% for coln in colnames %}
-                        <td class="td">{{ event[coln]}}</td>       
+                          {% if "loc" not in coln %}
+                        <td class="td">{{ event[coln]}}</td>   
+                          {% endif %}
                           {% endfor %}
                       </tr>
                       {% endfor %}

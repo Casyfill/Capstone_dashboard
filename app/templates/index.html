@@ -48,27 +48,27 @@
           <div class="chart-title">  
               Display all records
           </div>
-          <div class="chart-stage" style="overflow-y:scroll; height:280px">
-<!--            <img data-src="holder.js/100%x150/white">-->              
+          <div class="chart-stage" style="overflow:scroll; height:280px">
               <table class="table">
-
                   <thead class="thead">
                       {% for coln in colnames %}
+                      {% if "loc" not in coln %}
                       <th>{{ coln.upper() }}</th>
+                      {% endif %}
                       {% endfor %}
                   </thead>
                   <tbody class="tbody">
                       {% for event in events %}
                       <tr class="tr">
                           {% for coln in colnames %}
-                        <td class="td">{{ event[coln]}}</td>       
+                            {% if "loc" not in coln %}
+                        <td class="td">{{ event[coln]}}</td>   
+                          {% endif%}
                           {% endfor %}
                       </tr>
                       {% endfor %}
-                  </tbody>
-                  
-              </table>
-              
+                  </tbody>   
+              </table>      
           </div>
           <div class="chart-notes">
             This is a sample text region to describe this chart.
@@ -91,7 +91,6 @@
 <!-- RIGHT COLUMN -->
       <div class="col-sm-6">
         <div class="chart-wrapper">
-
           <div class="chart-stage" id="mapBlock">
             <!-- <img data-src="holder.js/100%x713/white"> -->
           </div>
