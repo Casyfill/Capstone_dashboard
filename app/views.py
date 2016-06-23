@@ -12,8 +12,9 @@ from .forms import Search_Records_Form
 
 def index():  
 #    COLNAME, EVENT_RECORDS = connect_db('SELECT * FROM test')
-    cursor = connect_db('SELECT * FROM test')
+    cursor = connect_db()
     EVENT_RECORDS = cursor.fetchall()
+    cursor.execute('SELECT * FROM test')
     COLNAME = [desc[0] for desc in cursor.description]
     
     return render_template('index.html',
@@ -22,7 +23,6 @@ def index():
                            colnames=COLNAME
                            )
 
-
 @app.route('/search_record', methods=['GET', 'POST'])
 def searchRecord():
     # define form
@@ -30,29 +30,21 @@ def searchRecord():
     error = None
     
     # retrieve data records from database
-#    colnames=COLNAME
-#    events=EVENT_RECORDS
-#    colnames, events = connect_db('SELECT * FROM test')
-    cursor = connect_db('SELECT * FROM test')
-    events = cursor.fetchall()
-    colnames = [desc[0] for desc in cursor.description]
-    
-    # for views html
-    events_updated = []
-    seed = []
+    cursor = connect_db()
+    colnames = []
     
     # check if the request method is POST (where form helps retrieve info from backend)
     if request.method.upper()=='POST':
         # select one of the two functions to react on (based on which button you click)
         if request.form['button']=="Search":
-            print "yes"
-            for i in range(len(events)):
-                if form.event_id.data == str(events[i]['relavence']):
-                    events_updated.append(events[i])
+            cursor.execute('SELECT * FROM test WHERE relavence=%s'% form.event_id.data)
+            events_updated = cursor.fetchall()
+            colnames = [desc[0] for desc in cursor.description]
+
         elif request.form['button']=="Info":
-            for i in range(len(events)):
-                if form.event_id.data == str(events[i]['event_id']):
-                    events_updated.append(events[i])
+            cursor.execute('SELECT * FROM test WHERE event_id=%s'%form.event_id.data)
+            events_updated = cursor.fetchall()
+            colnames = [desc[0] for desc in cursor.description]
         else:
             flash('Wrong button!')
             return redirect('../search_record')
@@ -64,8 +56,7 @@ def searchRecord():
                            colnames=colnames
                            )
 
-
-def connect_db(query):
+def connect_db():
     # define connection
     conn_str = "host='localhost' dbname='myevent' user='zsy' password='123'"
     print "Connecting to database-> %s" % (conn_str)
@@ -77,12 +68,5 @@ def connect_db(query):
     # note that in this example we pass a cursor_factory argument that will
     # dictionary cursor so COLUMNS will be returned as a dictionary so we
     # can access columns by their name instead of index.
-    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-
-#    cursor.execute('SELECT * FROM test')
-    cursor.execute(query)
-#    EVENT_RECORDS = cursor.fetchall()
-#    results = cursor.fetchall()
-#    colname = [desc[0] for desc in cursor.description]
-    
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)    
     return cursor
