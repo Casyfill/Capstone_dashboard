@@ -27,53 +27,57 @@ def index():
 def searchRecord():
     # define variables
     form = Search_Records_Form()
+    resultDict = {}
     
     # check if the request method is POST (where form helps retrieve info from backend)
     if request.method.upper()=='POST':
         event = []
         events_updated = []
         colnames = []
+        
         # check if enter value is null
         if len(form.event_id.data)==0:
             flash('Empty Entry!')
             print "Empty entry"
-        else:            
-            # execute query for Info
+        else:   # INFO         
+            # execute query for [Info] button
             query = 'SELECT * FROM test WHERE %s=%s'%('event_id', form.event_id.data)
             
             # retrieve data records from database
             cursor = connect_db()
             cursor.execute(query)
-            event = cursor.fetchall()
-            colnames = [desc[0] for desc in cursor.description]
+            resultDict['event'] = cursor.fetchall() 
             
-            if len(event)==0:
+            if len(resultDict['event'])==0:
                 flash('No such event')
 
-            elif request.form['button']=="Search":
+            else:
+                resultDict['event_colnames'] = [desc[0] for desc in cursor.description]
+
+            if request.form['button']=="Search":  # SEARCH              
+                # execute query for [Search] button
                 query = 'SELECT * FROM test WHERE %s=%s'%('relavence', form.event_id.data)
+                
                 # retrieve data records from database
                 cursor = connect_db()
                 cursor.execute(query)
-                events_updated = cursor.fetchall()
-                
-                if len(events_updated)==0:
+                resultDict['events_updated'] = cursor.fetchall() 
+                 
+                if len(resultDict['events_updated'])==0:
                     flash('No relavent events!')
-                
+                else:
+                    resultDict['events_colnames'] = [desc[0] for desc in cursor.description]
+                    
         return render_template('search_record.html',
                                title='Records',
                                form=form,
-                               event=event,
-                               events=events_updated,
-                               colnames=colnames
+                               resultDict=resultDict
                                )
     else:
         return render_template('search_record.html',
                                title='Records',
                                form=form,
-                               event=[],
-                               events=[],
-                               colnames=[]
+                               resultDict=resultDict
                                )
 
 def connect_db():

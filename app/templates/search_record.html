@@ -69,16 +69,16 @@
           <div class="chart-stage" style="overflow:scroll; height:120px">
               <table class="table table-hover">
                   <thead class="thead">
-                      {% for coln in colnames %}
+                      {% for coln in resultDict['event_colnames'] %}
                       {% if "loc" not in coln %}
                       <th>{{ coln.upper() }}</th>
                       {% endif %}
                       {% endfor %}
                   </thead>
                   <tbody class="tbody">
-                      {% for event in event %}
+                      {% for event in resultDict['event'] %}
                       <tr class="tr">
-                          {% for coln in colnames %}
+                          {% for coln in resultDict['event_colnames'] %}
                           {% if "loc" not in coln %}
                         <td class="td">{{ event[coln]}}</td>   
                           {% endif %}
@@ -100,16 +100,16 @@
           <div class="chart-stage" style="overflow:scroll; height:400px">
               <table class="table table-hover">
                   <thead class="thead">
-                      {% for coln in colnames %}
+                      {% for coln in resultDict['events_colnames'] %}
                       {% if "loc" not in coln %}
                       <th>{{ coln.upper() }}</th>
                       {% endif %}
                       {% endfor %}
                   </thead>
                   <tbody class="tbody">
-                      {% for event in events %}
+                      {% for event in resultDict['events_updated'] %}
                       <tr class="tr">
-                          {% for coln in colnames %}
+                          {% for coln in resultDict['events_colnames'] %}
                           {% if "loc" not in coln %}
                         <td class="td">{{ event[coln]}}</td>   
                           {% endif %}
