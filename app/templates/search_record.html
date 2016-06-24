@@ -52,21 +52,53 @@
                 <form name="searchRecord" action="" method="post">
                     {{ form.hidden_tag() }}
                     {{ form.event_id(size=40 )}}
-                    <input id="search_button" name="button" type="submit" value="Search">
                     <input id="info_button" name="button" type="submit" value="Info">
+                    <input id="search_button" name="button" type="submit" value="Search">
                 </form>
-            {% endblock%}
-               {% with messages = get_flashed_messages() %}
-                  {% if messages %}
+              
+                {% with messages = get_flashed_messages() %}
+                  {% if messages%}
                     {% for message in messages %}
-                        <u><font color="128c9a">ERROR: {{message}}</font></u>
+                       <font color="128c9a">Message: {{message}}</font>
                     {% endfor %}
                   {% endif %}
                 {% endwith %}
-          </div>
-          <div class="chart-stage" style="overflow:scroll; height:280px">
-              <table class="table">
+            {% endblock%}
 
+          </div>
+          <div class="chart-stage" style="overflow:scroll; height:120px">
+              <table class="table table-hover">
+                  <thead class="thead">
+                      {% for coln in colnames %}
+                      {% if "loc" not in coln %}
+                      <th>{{ coln.upper() }}</th>
+                      {% endif %}
+                      {% endfor %}
+                  </thead>
+                  <tbody class="tbody">
+                      {% for event in event %}
+                      <tr class="tr">
+                          {% for coln in colnames %}
+                          {% if "loc" not in coln %}
+                        <td class="td">{{ event[coln]}}</td>   
+                          {% endif %}
+                          {% endfor %}
+                      </tr>
+                      {% endfor %}
+                  </tbody>  
+              </table>
+          </div>
+          <div class="chart-notes">
+            This is a sample text region to describe this chart.
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <div class="chart-title">
+            Detailed data
+
+          </div>
+          <div class="chart-stage" style="overflow:scroll; height:400px">
+              <table class="table table-hover">
                   <thead class="thead">
                       {% for coln in colnames %}
                       {% if "loc" not in coln %}
@@ -84,22 +116,8 @@
                           {% endfor %}
                       </tr>
                       {% endfor %}
-                  </tbody>
-                  
+                  </tbody>  
               </table>
-              
-          </div>
-          <div class="chart-notes">
-            This is a sample text region to describe this chart.
-          </div>
-        </div>
-        <div class="chart-wrapper">
-          <div class="chart-title">
-            Detailed data
-
-          </div>
-          <div class="chart-stage">
-            <img data-src="holder.js/100%x415/white">
           </div>
           <div class="chart-notes">
             Notes go down here

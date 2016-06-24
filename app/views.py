@@ -3,6 +3,7 @@ import psycopg2.extras
 import sys
 import pprint
 import pandas as pd
+import numpy as np
 from flask import render_template, flash, redirect, request
 from app import app
 from .forms import Search_Records_Form
@@ -11,7 +12,6 @@ from .forms import Search_Records_Form
 @app.route('/index')
 
 def index():  
-#    COLNAME, EVENT_RECORDS = connect_db('SELECT * FROM test')
     cursor = connect_db()
     cursor.execute('SELECT * FROM test')
     EVENT_RECORDS = cursor.fetchall()
@@ -25,40 +25,56 @@ def index():
 
 @app.route('/search_record', methods=['GET', 'POST'])
 def searchRecord():
-    # define form
+    # define variables
     form = Search_Records_Form()
-    error = None
-    
-    # retrieve data records from database
-    cursor = connect_db()
-    events_updated = []
-    colnames = []
     
     # check if the request method is POST (where form helps retrieve info from backend)
     if request.method.upper()=='POST':
-        # select one of the two functions to react on (based on which button you click)
-        if request.form['button']=="Search":
-            cursor.execute('SELECT * FROM test WHERE relavence=%s'% form.event_id.data)
-            events_updated = cursor.fetchall()
+        event = []
+        events_updated = []
+        colnames = []
+        # check if enter value is null
+        if len(form.event_id.data)==0:
+            flash('Empty Entry!')
+            print "Empty entry"
+        else:            
+            # execute query for Info
+            query = 'SELECT * FROM test WHERE %s=%s'%('event_id', form.event_id.data)
+            
+            # retrieve data records from database
+            cursor = connect_db()
+            cursor.execute(query)
+            event = cursor.fetchall()
             colnames = [desc[0] for desc in cursor.description]
             
-            if len(events_updated)==0:
-                flash('No relavent events!')
+            if len(event)==0:
+                flash('No such event')
 
-        elif request.form['button']=="Info":
-            cursor.execute('SELECT * FROM test WHERE event_id=%s'%form.event_id.data)
-            events_updated = cursor.fetchall()
-            colnames = [desc[0] for desc in cursor.description]
-            
-            if len(events_updated)==0:
-                flash('Empty result!')
+            elif request.form['button']=="Search":
+                query = 'SELECT * FROM test WHERE %s=%s'%('relavence', form.event_id.data)
+                # retrieve data records from database
+                cursor = connect_db()
+                cursor.execute(query)
+                events_updated = cursor.fetchall()
                 
-    return render_template('search_record.html',
-                           title='Records',
-                           form=form,
-                           events=events_updated,
-                           colnames=colnames
-                           )
+                if len(events_updated)==0:
+                    flash('No relavent events!')
+                
+        return render_template('search_record.html',
+                               title='Records',
+                               form=form,
+                               event=event,
+                               events=events_updated,
+                               colnames=colnames
+                               )
+    else:
+        return render_template('search_record.html',
+                               title='Records',
+                               form=form,
+                               event=[],
+                               events=[],
+                               colnames=[]
+                               )
 
 def connect_db():
     # define connection
