@@ -58,7 +58,7 @@ def searchRecord():
 
 def connect_db():
     # define connection
-    conn_str = "host='localhost' dbname='myevent' user='zsy' password='123'"
+    conn_str = "host='localhost' dbname='myevents' user='ubuntu' password='123'"
     print "Connecting to database-> %s" % (conn_str)
 
     # get a connection
