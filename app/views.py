@@ -13,8 +13,8 @@ from .forms import Search_Records_Form
 def index():  
 #    COLNAME, EVENT_RECORDS = connect_db('SELECT * FROM test')
     cursor = connect_db()
-    EVENT_RECORDS = cursor.fetchall()
     cursor.execute('SELECT * FROM test')
+    EVENT_RECORDS = cursor.fetchall()
     COLNAME = [desc[0] for desc in cursor.description]
     
     return render_template('index.html',
@@ -31,6 +31,7 @@ def searchRecord():
     
     # retrieve data records from database
     cursor = connect_db()
+    events_updated = []
     colnames = []
     
     # check if the request method is POST (where form helps retrieve info from backend)
@@ -40,15 +41,18 @@ def searchRecord():
             cursor.execute('SELECT * FROM test WHERE relavence=%s'% form.event_id.data)
             events_updated = cursor.fetchall()
             colnames = [desc[0] for desc in cursor.description]
+            
+            if len(events_updated)==0:
+                flash('No relavent events!')
 
         elif request.form['button']=="Info":
             cursor.execute('SELECT * FROM test WHERE event_id=%s'%form.event_id.data)
             events_updated = cursor.fetchall()
             colnames = [desc[0] for desc in cursor.description]
-        else:
-            flash('Wrong button!')
-            return redirect('../search_record')
-
+            
+            if len(events_updated)==0:
+                flash('Empty result!')
+                
     return render_template('search_record.html',
                            title='Records',
                            form=form,
